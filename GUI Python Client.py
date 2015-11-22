@@ -10,13 +10,13 @@ def Main_GUI():
     global entr, text1, rootM
     rootM=Tk()
     rootM.title=('Chat Client')
-    #Button(rootM, text='Load', command=main).pack(side = RIGHT)
     Button(rootM, text='Send', command=send).pack(side = BOTTOM)
     entr =Entry(rootM)
     entr.pack(side=BOTTOM, fill=X)
     entr.focus()
     entr.bind('<Return>', (lambda event: send()))
     text1 =Text(rootM, relief = SUNKEN)
+    text1.config(state=DISABLED)
     text1.pack(side= LEFT, fill = BOTH)
     rootM.mainloop()
     
@@ -26,18 +26,20 @@ def send():
     stext= entr.get()
     entr.delete(0, END)
     print_(stext)
-    #try:
-    server_socket.send(stext)
-    #except:
-        #print_("Problem while sending text")
+    try:
+        server_socket.send(stext)
+    except:
+        print_("Problem while sending text...")
 
 def print_(rdata):
     global line11
     if len(rdata) > 0:
         rdata= rdata + '\n'
     line11 +=1.0
+    text1.config(state=NORMAL)
     text1.insert(line11, rdata)
     text1.mark_set(INSERT, line11)
+    text1.config(state=DISABLED)
 
 def main():
 
@@ -81,11 +83,8 @@ def Server():
                     
             else:
                 server_socket.send(stext)
-
-        
+     
 line11=1
 if __name__ == "__main__":
     main()
-
-
-
+  
