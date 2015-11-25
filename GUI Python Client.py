@@ -48,7 +48,6 @@ def send():
     global stext
     stext= entr.get()
     entr.delete(0, END)
-    print_(stext)
     try:
         server_socket.send(stext)
     except:
